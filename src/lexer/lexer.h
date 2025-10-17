@@ -12,11 +12,13 @@ class lexer
 {
 private:
     std::vector<token> tokenStream;
+    size_t index;
 
     void reformat();
 
 public:
     lexer(const std::string& input);
+    token getNextToken();
     std::vector<token> getTokens();
     ~lexer() = default;
 };

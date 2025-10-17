@@ -52,7 +52,7 @@ void lexer::reformat()
     tokenStream = newTokens;
 }
 
-lexer::lexer(const std::string& input)
+lexer::lexer(const std::string& input) : index(0)
 {
     if (input.empty())
     {
@@ -145,6 +145,11 @@ lexer::lexer(const std::string& input)
     }
     reformat();
     logger() << tokenStream.size() << " tokens found\n";
+}
+
+token lexer::getNextToken()
+{
+    return tokenStream[index++];
 }
 
 std::vector<token> lexer::getTokens()

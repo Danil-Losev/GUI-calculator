@@ -13,9 +13,17 @@
 
 class parser
 {
+private:
+    lexer lexer;
+    token currentToken;
+    double result;
+
+    double calculate();
+    explicit parser(const std::string& input);
+
 public:
-    static std::vector<std::variant<dynamicToken<double>, dynamicToken<std::string>>> parseToDynamicTokenStream(
-        const std::vector<token>& tokens);
+    static double parse(const std::string& input);
+    ~parser() = default;
 };
 
 
