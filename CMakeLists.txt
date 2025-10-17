@@ -23,7 +23,8 @@ add_executable(GUI_calculator src/main.cpp
         src/GUI/gui.h
         src/token/token.cpp
         src/logger/logger.cpp
-        src/logger/logger.h)
+        src/logger/logger.h
+        src/token/dynamicTokenTemplate.h)
 target_link_libraries(GUI_calculator
         Qt::Core
         Qt::Gui

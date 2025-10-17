@@ -1,14 +1,13 @@
-#include <iostream>
+
 #include <QApplication>
-#include <QPushButton>
 
 #include "lexer/lexer.h"
-#include "logger/logger.h"
+#include "parser/parser.h"
 
 
 int main(int argc, char* argv[])
 {
-    const auto tokens = lexer("112+(2a+a)+12=0").getTokens();
+    const auto tokens = lexer(argv[1]).getTokens();
 
     for (auto& token : tokens)
     {
@@ -19,10 +18,16 @@ int main(int argc, char* argv[])
     {
         logger() << token.value;
     }
+    logger() << '\n';
 
-    // QApplication a(argc, argv);
-    // QPushButton button("Hello world!", nullptr);
-    // button.resize(200, 100);
-    // button.show();
-    // return QApplication::exec();
+    const auto parsedTokens = parser::parseToDynamicTokenStream(tokens);
+
+    for (auto& token : parsedTokens)
+    {
+        std::visit([](auto&& arg)
+                   {
+                       logger() << arg << '\n';
+                   },
+                   token);
+    }
 }

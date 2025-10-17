@@ -8,6 +8,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <QDate>
+
 class logger
 {
 public:
@@ -15,7 +17,7 @@ public:
 
     ~logger()
     {
-        std::cout << stream.str();
+        std::cout << stream.str().c_str();
     }
 
     template <typename T>

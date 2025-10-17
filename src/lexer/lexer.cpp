@@ -13,10 +13,40 @@ void lexer::reformat()
     for (int i = 0; i < tokenStream.size(); i++)
     {
         newTokens.push_back(tokenStream[i]);
-        if (i < tokenStream.size() - 1 && tokenStream[i].type == tokenType::NUMBER && tokenStream[i + 1].type ==
-            tokenType::IDENTIFIER)
+        if (i < tokenStream.size() - 1 && tokenStream[i].type == tokenType::NUMBER &&
+            (tokenStream[i + 1].type ==
+                tokenType::IDENTIFIER || tokenStream[i + 1].type ==
+                tokenType::OPEN_BRACKET))
         {
             newTokens.push_back(token{tokenType::MULTIPLY, "*"});
+        }
+
+        if (i >= 1 && tokenStream[i - 1].type == tokenType::MINUS)
+        {
+            bool isUnaryMinus = false;
+            if (i == 1)
+                isUnaryMinus = true;
+            else
+            {
+                const auto prev = tokenStream[i - 2].type;
+                if (prev != tokenType::NUMBER && prev != tokenType::IDENTIFIER &&
+                    prev != tokenType::CLOSE_BRACKET)
+                {
+                    // prev == tokenType::PLUS || prev == tokenType::MINUS || prev == tokenType::MULTIPLY ||
+                    // prev == tokenType::DIVIDE || prev == tokenType::OPEN_BRACKET || prev == tokenType::EQUAL ||
+                    // prev == tokenType::POWER
+                    isUnaryMinus = true;
+                }
+            }
+
+            if (isUnaryMinus && tokenStream[i].type == tokenType::NUMBER)
+            {
+                if (!newTokens.empty())
+                    newTokens.pop_back();
+                if (!newTokens.empty() && newTokens.back().type == tokenType::MINUS)
+                    newTokens.pop_back();
+                newTokens.push_back(token{tokenType::NUMBER, "-" + tokenStream[i].value});
+            }
         }
     }
     tokenStream = newTokens;
@@ -37,8 +67,14 @@ lexer::lexer(const std::string& input)
         if (std::isdigit(input[i]))
         {
             std::string number;
-            while ((std::isdigit(input[i]) || input[i] == ',') && i < input.size())
+            while ((std::isdigit(input[i]) || input[i] == ',' || input[i] == '.') && i < input.size())
             {
+                if (input[i] == ',')
+                {
+                    number += '.';
+                    i++;
+                    continue;
+                }
                 number += input[i];
                 i++;
             }
