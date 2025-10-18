@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <variant>
+
+#include "Node.h"
 #include "../token/token.h"
 #include "../lexer/lexer.h"
 #include "../logger/logger.h"
@@ -18,11 +20,14 @@ private:
     token currentToken;
     double result;
 
-    double calculate();
-    explicit parser(const std::string& input);
+    void setNextToken();
+    static int getAtomPriority(tokenType type);
+    std::unique_ptr<Node> parsePrimaryExpression();
+    std::unique_ptr<Node> parseExpression(int minPriority = 0);
 
 public:
-    static double parse(const std::string& input);
+    explicit parser(const std::string& input);
+    double parse();
     ~parser() = default;
 };
 

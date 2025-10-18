@@ -14,9 +14,14 @@ void lexer::reformat()
     {
         newTokens.push_back(tokenStream[i]);
         if (i < tokenStream.size() - 1 && tokenStream[i].type == tokenType::NUMBER &&
-            (tokenStream[i + 1].type ==
-                tokenType::IDENTIFIER || tokenStream[i + 1].type ==
-                tokenType::OPEN_BRACKET))
+            (tokenStream[i + 1].type == tokenType::IDENTIFIER
+                || tokenStream[i + 1].type == tokenType::OPEN_BRACKET))
+        {
+            newTokens.push_back(token{tokenType::MULTIPLY, "*"});
+        }
+        if (i < tokenStream.size() - 1
+            && (tokenStream[i + 1].type == tokenType::NUMBER || tokenStream[i + 1].type == tokenType::IDENTIFIER)
+            && tokenStream[i].type == tokenType::CLOSE_BRACKET)
         {
             newTokens.push_back(token{tokenType::MULTIPLY, "*"});
         }
@@ -30,7 +35,7 @@ void lexer::reformat()
             {
                 const auto prev = tokenStream[i - 2].type;
                 if (prev != tokenType::NUMBER && prev != tokenType::IDENTIFIER &&
-                    prev != tokenType::CLOSE_BRACKET)
+                    prev != tokenType::CLOSE_BRACKET && prev != tokenType::END_OF_INPUT)
                 {
                     // prev == tokenType::PLUS || prev == tokenType::MINUS || prev == tokenType::MULTIPLY ||
                     // prev == tokenType::DIVIDE || prev == tokenType::OPEN_BRACKET || prev == tokenType::EQUAL ||
@@ -50,9 +55,10 @@ void lexer::reformat()
         }
     }
     tokenStream = newTokens;
+    isInited = true;
 }
 
-lexer::lexer(const std::string& input) : index(0)
+lexer::lexer(const std::string& input) : index(0), isInited(false)
 {
     if (input.empty())
     {
@@ -138,21 +144,30 @@ lexer::lexer(const std::string& input) : index(0)
             }
         default:
             {
-                std::cout << "Unknown token: " << input[i] << '\n';
+                logger() << "Unknown token: " << input[i] << '\n';
                 break;
             }
         }
     }
     reformat();
-    logger() << tokenStream.size() << " tokens found\n";
+    isInited = true;
 }
 
 token lexer::getNextToken()
 {
-    return tokenStream[index++];
+    if (!isInited)
+    {
+        throw std::runtime_error("Lexer is not initialized");
+    }
+    if (index >= tokenStream.size()) return {tokenType::END_OF_INPUT, "end"};
+    return tokenStream.at(index++);
 }
 
 std::vector<token> lexer::getTokens()
 {
+    if (!isInited)
+    {
+        throw std::runtime_error("Lexer is not initialized");
+    }
     return tokenStream;
 }

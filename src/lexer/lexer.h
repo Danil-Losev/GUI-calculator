@@ -14,10 +14,12 @@ private:
     std::vector<token> tokenStream;
     size_t index;
 
+    bool isInited;
+
     void reformat();
 
 public:
-    lexer(const std::string& input);
+    explicit lexer(const std::string& input);
     token getNextToken();
     std::vector<token> getTokens();
     ~lexer() = default;

@@ -20,7 +20,8 @@ enum class tokenType
     POWER,
     ROOT,
     NUMBER,
-    IDENTIFIER
+    IDENTIFIER,
+    END_OF_INPUT
 };
 
 

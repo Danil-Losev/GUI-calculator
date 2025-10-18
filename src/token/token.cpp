@@ -6,7 +6,7 @@
 
 std::ostream& operator<<(std::ostream& os, const token& t)
 {
-    os << "(type: ";
+    os << " ";
     switch (t.type)
     {
     case tokenType::PLUS:
@@ -64,7 +64,19 @@ std::ostream& operator<<(std::ostream& os, const token& t)
             os << "IDENTIFIER";
             break;
         }
+    case tokenType::END_OF_INPUT:
+        {
+            os << "END_OF_INPUT";
+            break;
+        }
     }
-    os << ", value: " << "\"" << t.value << "\" " << ")";
+    if (t.type == tokenType::NUMBER || t.type == tokenType::IDENTIFIER)
+    {
+        os << "(" << t.value << ")";
+    }
+    else
+    {
+        os << "(" << "\"" << t.value << "\"" << ")";
+    }
     return os;
 }
