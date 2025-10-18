@@ -25,12 +25,20 @@ add_executable(GUI_calculator src/main.cpp
         src/logger/logger.cpp
         src/logger/logger.h
         src/parser/Node.cpp
-        src/parser/Node.h)
+        src/parser/Node.h
+        src/GUI/keyboard/keyboard.cpp
+        src/GUI/keyboard/keyboard.h
+        src/GUI/keyboard/key/key.cpp
+        src/GUI/keyboard/key/key.h
+        src/GUI/screen/screen.cpp
+        src/GUI/screen/screen.h)
+
 target_link_libraries(GUI_calculator
         Qt::Core
         Qt::Gui
         Qt::Widgets
 )
+
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     set(DEBUG_SUFFIX)
@@ -60,3 +68,11 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
     endforeach (QT_LIB)
 endif ()
+
+# --- Копирование папки стилей ---
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/src/styles"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/styles"
+        COMMENT "Копирую стили рядом с исполняемым файлом..."
+)

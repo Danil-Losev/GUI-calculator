@@ -27,7 +27,8 @@ int parser::getAtomPriority(const tokenType type)
 
 std::unique_ptr<Node> parser::parsePrimaryExpression()
 {
-    if (currentToken.type == tokenType::PLUS || currentToken.type == tokenType::MINUS)
+    if (currentToken.type == tokenType::PLUS || currentToken.type == tokenType::MINUS ||
+        currentToken.type == tokenType::ROOT)
     {
         tokenType op = currentToken.type;
         setNextToken();

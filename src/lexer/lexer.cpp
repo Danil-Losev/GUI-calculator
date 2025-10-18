@@ -15,7 +15,8 @@ void lexer::reformat()
         newTokens.push_back(tokenStream[i]);
         if (i < tokenStream.size() - 1 && tokenStream[i].type == tokenType::NUMBER &&
             (tokenStream[i + 1].type == tokenType::IDENTIFIER
-                || tokenStream[i + 1].type == tokenType::OPEN_BRACKET))
+                || tokenStream[i + 1].type == tokenType::OPEN_BRACKET
+                || tokenStream[i + 1].type == tokenType::ROOT))
         {
             newTokens.push_back(token{tokenType::MULTIPLY, "*"});
         }
@@ -95,6 +96,12 @@ lexer::lexer(const std::string& input) : index(0), isInited(false)
             {
                 identifier += input[i];
                 i++;
+            }
+            if (identifier == "v" || identifier == "sqrt")
+            {
+                tokenStream.push_back(token{tokenType::ROOT, "sqrt"});
+                i--;
+                continue;
             }
             tokenStream.push_back(token{tokenType::IDENTIFIER, identifier});
             i--;

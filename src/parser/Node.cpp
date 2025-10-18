@@ -41,6 +41,10 @@ double BinaryOpNode::eval()
             {
                 throw std::runtime_error("Root of zero");
             }
+            if (right->eval() < 0)
+            {
+                throw std::runtime_error("Root of negative number");
+            }
             return std::pow(left->eval(), 1.0 / right->eval());
         }
     default:
@@ -56,6 +60,18 @@ double UnaryOpNode::eval()
         return operand->eval();
     case tokenType::MINUS:
         return -operand->eval();
+    case tokenType::ROOT:
+        {
+            if (operand->eval() == 0)
+            {
+                throw std::runtime_error("Root of zero");
+            }
+            if (operand->eval() < 0)
+            {
+                throw std::runtime_error("Root of negative number");
+            }
+            return std::pow(operand->eval(), 1.0 / 2);
+        }
     default:
         throw std::runtime_error("Unknown operation UnaryOpNode");
     }

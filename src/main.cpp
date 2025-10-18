@@ -20,8 +20,6 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
     gui graphicalInterface;
-    graphicalInterface.setWindowTitle("Calculator");
-    graphicalInterface.resize(300, 300);
     graphicalInterface.show();
     return QApplication::exec();
 }
