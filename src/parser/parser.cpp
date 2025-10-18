@@ -79,12 +79,20 @@ std::unique_ptr<Node> parser::parseExpression(const int minPriority)
     return left;
 }
 
-parser::parser(const std::string& input) : lexer(input), currentToken(lexer.getNextToken()), result(0)
+parser::parser(const std::string& input, const bool isTUI) : lexer(input), currentToken(lexer.getNextToken()),
+                                                             result(0), isError(false), error(""), isTUI(isTUI)
 {
+}
+
+bool parser::isErrorOccured(std::string& outErrorMessage) const
+{
+    outErrorMessage = error;
+    return isError;
 }
 
 double parser::parse()
 {
+    isError = false;
     try
     {
         result = parseExpression()->eval();
@@ -92,6 +100,12 @@ double parser::parse()
     catch (const std::exception& e)
     {
         logger() << e.what() << '\n';
+        isError = true;
+        error = e.what();
+    }
+    if (isError && isTUI)
+    {
+        std::cout << "Error: " << error << '\n';
     }
     return result;
 }

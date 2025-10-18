@@ -20,13 +20,19 @@ private:
     token currentToken;
     double result;
 
+    bool isError;
+    std::string error;
+
+    bool isTUI;
+
     void setNextToken();
     static int getAtomPriority(tokenType type);
     std::unique_ptr<Node> parsePrimaryExpression();
     std::unique_ptr<Node> parseExpression(int minPriority = 0);
 
 public:
-    explicit parser(const std::string& input);
+    explicit parser(const std::string& input, bool isTUI = false);
+    bool isErrorOccured(std::string& outErrorMessage) const;
     double parse();
     ~parser() = default;
 };

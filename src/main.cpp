@@ -2,10 +2,26 @@
 #include <QApplication>
 
 #include "parser/parser.h"
-
+#include "GUI/gui.h"
 
 int main(int argc, char* argv[])
 {
-    logger() << "Result: " << parser(std::string(argv[1])).parse() << '\n';
-    return 0;
+    if (argc >= 2)
+    {
+        if (strcmp(argv[1], "--input") == 0 && argc == 3)
+        {
+            const double result = parser(std::string(argv[2]), true).parse();
+            std::cout << "Result: " << result << '\n';
+            return 0;
+        }
+        std::cout << "Usage: " << argv[0] << " --input <expression>\n";
+        return -1;
+    }
+
+    QApplication app(argc, argv);
+    gui graphicalInterface;
+    graphicalInterface.setWindowTitle("Calculator");
+    graphicalInterface.resize(300, 300);
+    graphicalInterface.show();
+    return QApplication::exec();
 }

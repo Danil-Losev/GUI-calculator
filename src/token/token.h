@@ -24,14 +24,6 @@ enum class tokenType
     END_OF_INPUT
 };
 
-
-template <typename T>
-struct dynamicToken
-{
-    tokenType type;
-    T value;
-};
-
 struct token
 {
     tokenType type;
@@ -39,7 +31,5 @@ struct token
 
     friend std::ostream& operator<<(std::ostream& os, const token& t);
 };
-
-#include "dynamicTokenTemplate.h"
 
 #endif //GUI_CALCULATOR_TOKEN_H
