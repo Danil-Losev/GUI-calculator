@@ -18,7 +18,6 @@ class keyboard final : public QWidget
 
 private:
     QGridLayout* layout;
-
     class screen* screenUI;
 
     void addKey(const QString& keyValue, int row, int col);

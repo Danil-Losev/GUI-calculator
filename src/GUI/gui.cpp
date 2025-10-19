@@ -11,6 +11,7 @@ gui::gui(QWidget* parent) : QMainWindow(parent)
     setWindowTitle("Calculator");
     setFixedSize(50 * 5 + 4 * 3 + 30, 50 * 5 + 4 * 3 + 30 + 50 + 10);
 
+
     centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     layout = new QVBoxLayout(centralWidget);

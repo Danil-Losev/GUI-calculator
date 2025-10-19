@@ -4,9 +4,5 @@
  */
 
 /* Base styling */
-QWidget {
-    background-color: #f0f0f0;
-    color: #333333;
-}
 
 /* Add your QSS styles here */

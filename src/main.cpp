@@ -18,7 +18,9 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon("./styles/images/icon144.png"));
     gui graphicalInterface;
     graphicalInterface.show();
     return QApplication::exec();

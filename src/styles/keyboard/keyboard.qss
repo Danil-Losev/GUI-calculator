@@ -4,9 +4,139 @@
  */
 
 /* Base styling */
-QWidget {
-    background-color: #f0f0f0;
-    color: #333333;
+#clear{
+    background-color: #FF5C5C;
+    border: 1px solid #DD5555;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
 }
 
+#clear:hover{
+    background-color: #FF7070;
+    border: 1px solid #EE6666;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#clear:pressed{
+    background-color: #CC4444;
+    border: 1px solid #AA3333;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#key{
+    background-color: #333333;
+    border: 1px solid #555555;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#key:hover{
+    background-color: #444444;
+    border: 1px solid #666666;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#key:pressed{
+    background-color: #555555;
+    border: 1px solid #777777;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#equal{
+    background-color: #4CAF50;
+    border: 1px solid #388E3C;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#equal:hover{
+    background-color: #5ACF60;
+    border: 1px solid #43A047;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#equal:pressed{
+    background-color: #388E3C;
+    border: 1px solid #2E7030;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#del{
+    background-color: #FFA500;
+    border: 1px solid #CC8400;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#del:hover{
+    background-color: #FFB733;
+    border: 1px solid #DD9500;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#del:pressed{
+    background-color: #CC8400;
+    border: 1px solid #AA7000;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#zero{
+    background-color: #333333;
+    border: 1px solid #555555;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+
+#zero:hover{
+    background-color: #444444;
+    border: 1px solid #666666;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#zero:pressed{
+    background-color: #555555;
+    border: 1px solid #777777;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px;
+}
 /* Add your QSS styles here */

@@ -4,9 +4,14 @@
  */
 
 /* Base styling */
-QWidget {
-    background-color: #f0f0f0;
-    color: #333333;
+
+QLineEdit{
+    border: 1px solid #CCCCCC;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 18px;
+    color: #D2D6D8;
+    qproperty-alignment: AlignRight;
 }
 
 /* Add your QSS styles here */

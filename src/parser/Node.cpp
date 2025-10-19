@@ -14,9 +14,21 @@ double BinaryOpNode::eval()
     switch (operation)
     {
     case tokenType::PLUS:
-        return left->eval() + right->eval();
+        {
+            if (right->isPercent())
+            {
+                return left->eval() + (left->eval() * right->eval());
+            }
+            return left->eval() + right->eval();
+        }
     case tokenType::MINUS:
-        return left->eval() - right->eval();
+        {
+            if (right->isPercent())
+            {
+                return left->eval() - (left->eval() * right->eval());
+            }
+            return left->eval() - right->eval();
+        }
     case tokenType::MULTIPLY:
         return left->eval() * right->eval();
     case tokenType::DIVIDE:
@@ -75,4 +87,9 @@ double UnaryOpNode::eval()
     default:
         throw std::runtime_error("Unknown operation UnaryOpNode");
     }
+}
+
+double PercentNode::eval()
+{
+    return operand->eval() / 100.0;
 }

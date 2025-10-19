@@ -7,8 +7,9 @@
 
 screen::screen(QWidget* parent) : QLineEdit(parent)
 {
+    isErrorOnScreen = false;
     setFixedHeight(50);
-    setText(" ");
+    setText("");
 
     QFile styleSheet("./styles/screen/screen.qss");
     if (styleSheet.open(QFile::ReadOnly))
@@ -16,16 +17,34 @@ screen::screen(QWidget* parent) : QLineEdit(parent)
         setStyleSheet(styleSheet.readAll());
         styleSheet.close();
     }
+
     else
     {
         logger() << "Failed to load stylesheet for screen\n";
     }
 }
 
+void screen::setIsErrorOnScreen(const bool isErrorOnScreen)
+{
+    this->isErrorOnScreen = isErrorOnScreen;
+}
+
 void screen::onCalculate()
 {
     try
     {
+        if (this->text().isEmpty())
+        {
+            this->setFocus();
+            return;
+        }
+        if (isErrorOnScreen)
+        {
+            this->setFocus();
+            this->setText("");
+            isErrorOnScreen = false;
+            return;
+        }
         parser parserObj(this->text().toStdString(), false);
         const double result = parserObj.parse();
         std::string error;
@@ -33,14 +52,19 @@ void screen::onCalculate()
         if (!isError)
         {
             this->setText(std::to_string(result).c_str());
+            this->setFocus();
+            isErrorOnScreen = false;
         }
         else
         {
             this->setText(error.c_str());
+            isErrorOnScreen = true;
+            this->setFocus();
         }
     }
     catch (const std::exception& e)
     {
         this->setText(e.what());
+        this->setFocus();
     }
 }

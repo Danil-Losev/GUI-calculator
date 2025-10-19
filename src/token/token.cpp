@@ -64,6 +64,11 @@ std::ostream& operator<<(std::ostream& os, const token& t)
             os << "IDENTIFIER";
             break;
         }
+    case tokenType::PERCENT:
+        {
+            os << "PERCENT";
+            break;
+        }
     case tokenType::END_OF_INPUT:
         {
             os << "END_OF_INPUT";

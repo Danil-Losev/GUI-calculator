@@ -13,8 +13,13 @@ class screen final : public QLineEdit
 {
     Q_OBJECT
 
+private:
+    bool isErrorOnScreen;
+
 public:
     screen(QWidget* parent = nullptr);
+    bool getIsErrorOnScreen() const { return isErrorOnScreen; }
+    void setIsErrorOnScreen(bool isErrorOnScreen);
 
 public slots:
     void onCalculate();

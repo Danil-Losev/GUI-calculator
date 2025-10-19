@@ -12,6 +12,7 @@ class Node
 public:
     virtual double eval() = 0;
     virtual ~Node() = default;
+    virtual bool isPercent() const { return false; }
 };
 
 
@@ -56,5 +57,20 @@ public:
     }
 
     double eval() override;
+};
+
+
+class PercentNode final : public Node
+{
+private:
+    std::unique_ptr<Node> operand;
+
+public:
+    PercentNode(std::unique_ptr<Node> operand) : operand(std::move(operand))
+    {
+    }
+
+    double eval() override;
+    bool isPercent() const override { return true; }
 };
 #endif //GUI_CALCULATOR_NODE_H

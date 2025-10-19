@@ -21,6 +21,7 @@ enum class tokenType
     ROOT,
     NUMBER,
     IDENTIFIER,
+    PERCENT,
     END_OF_INPUT
 };
 

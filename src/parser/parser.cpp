@@ -21,6 +21,7 @@ int parser::getAtomPriority(const tokenType type)
     case tokenType::DIVIDE: return 20;
     case tokenType::POWER:
     case tokenType::ROOT: return 30;
+    case tokenType::PERCENT: return 100;
     default: return -1;
     }
 }
@@ -40,18 +41,36 @@ std::unique_ptr<Node> parser::parsePrimaryExpression()
     {
         double value = std::stod(currentToken.value);
         setNextToken();
-        return std::make_unique<NumberNode>(value);
+        std::unique_ptr<Node> node = std::make_unique<NumberNode>(value);
+
+        if (currentToken.type == tokenType::PERCENT)
+        {
+            setNextToken();
+            node = std::make_unique<PercentNode>(std::move(node));
+        }
+
+        return node;
     }
 
     if (currentToken.type == tokenType::OPEN_BRACKET)
     {
         setNextToken();
-        auto expression = parseExpression(0);
+        auto expr = parseExpression(0);
         if (currentToken.type != tokenType::CLOSE_BRACKET)
             throw std::runtime_error("Expected ')'");
         setNextToken();
-        return expression;
+
+        if (currentToken.type == tokenType::PERCENT)
+        {
+            setNextToken();
+            expr = std::make_unique<PercentNode>(std::move(expr));
+        }
+        return expr;
     }
+
+    if (currentToken.type == tokenType::END_OF_INPUT)
+        throw std::runtime_error("Unexpected end of input");
+
     throw std::runtime_error("Unexpected token: " + currentToken.value);
 }
 
@@ -61,12 +80,11 @@ std::unique_ptr<Node> parser::parseExpression(const int minPriority)
 
     while (true)
     {
-        if (currentToken.type == tokenType::END_OF_INPUT)
+        if (currentToken.type == tokenType::END_OF_INPUT || currentToken.type == tokenType::CLOSE_BRACKET)
             break;
 
         const int priority = getAtomPriority(currentToken.type);
-        if (priority <= minPriority)
-            break;
+        if (priority <= minPriority) break;
 
         tokenType operation = currentToken.type;
         setNextToken();
@@ -81,7 +99,7 @@ std::unique_ptr<Node> parser::parseExpression(const int minPriority)
 }
 
 parser::parser(const std::string& input, const bool isTUI) : lexer(input), currentToken(lexer.getNextToken()),
-                                                             result(0), isError(false), error(""), isTUI(isTUI)
+                                                             result(0), isError(false), isTUI(isTUI)
 {
 }
 
@@ -104,6 +122,7 @@ double parser::parse()
         isError = true;
         error = e.what();
     }
+
     if (isError && isTUI)
     {
         std::cout << "Error: " << error << '\n';

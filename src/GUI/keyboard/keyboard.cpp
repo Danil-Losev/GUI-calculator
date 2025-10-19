@@ -10,14 +10,21 @@
 #define KEY_WIDTH 50
 #define SPACE_BETWEEN_KEYS 4
 
-void keyboard::addKey(const QString& keyValue, int row, int col)
+void keyboard::addKey(const QString& keyValue, const int row, const int col)
 {
     const auto curKey = new key(keyValue);
     curKey->setFixedSize(KEY_WIDTH, KEY_HEIGHT);
+    curKey->setObjectName("key");
     layout->addWidget(curKey, row, col);
     connect(curKey, &key::keyClicked, [this, keyValue]()
     {
+        if (screenUI->getIsErrorOnScreen())
+        {
+            screenUI->setText("");
+        }
         screenUI->setText(screenUI->text() + keyValue);
+        screenUI->setFocus();
+        screenUI->setIsErrorOnScreen(false);
     });
 }
 
@@ -26,15 +33,15 @@ keyboard::keyboard(class screen* screen, QWidget* parent) : QWidget(parent)
     screenUI = screen;
     layout = new QGridLayout(this);
     setLayout(layout);
-    setFixedSize(5 * KEY_WIDTH + 4 * SPACE_BETWEEN_KEYS, 5 * KEY_HEIGHT + 4 * SPACE_BETWEEN_KEYS);
+    setFixedSize(5 * KEY_WIDTH + 4 * SPACE_BETWEEN_KEYS + 8, 5 * KEY_HEIGHT + 4 * SPACE_BETWEEN_KEYS + 8);
     layout->setSpacing(SPACE_BETWEEN_KEYS);
-
 
     const QString keys[3][3] = {
         {"7", "8", "9"},
         {"4", "5", "6"},
         {"1", "2", "3"},
     };
+
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -47,23 +54,31 @@ keyboard::keyboard(class screen* screen, QWidget* parent) : QWidget(parent)
     addKey(QString('-'), 0, 2);
     addKey(QString('+'), 0, 3);
     addKey(QString('^'), 1, 3);
-    addKey(QString('('), 2, 3);
-    addKey(QString(')'), 3, 3);
-    addKey(QString("v"), 1, 4);
-    addKey(QString(','), 4, 3);
+    addKey(QString('%'), 2, 3);
+    addKey(QString('('), 3, 3);
+    addKey(QString("v"), 2, 4);
+    addKey(QString(')'), 4, 3);
+    addKey(QString(','), 4, 2);
 
     auto* zeroKey = new key("0", this);
     zeroKey->setObjectName("zero");
-    zeroKey->setFixedSize(3 * KEY_WIDTH, KEY_HEIGHT);
+    zeroKey->setFixedSize(2 * KEY_WIDTH + 2, KEY_HEIGHT);
     layout->addWidget(zeroKey, 4, 0, 1, 3);
     connect(zeroKey, &key::keyClicked, [this]()
     {
+        if (screenUI->getIsErrorOnScreen())
+        {
+            screenUI->setText("");
+        }
         screenUI->setText(screenUI->text() + "0");
+        screenUI->setFocus();
+        screenUI->setIsErrorOnScreen(false);
     });
 
     auto* equalKey = new key("=", this);
     equalKey->setObjectName("equal");
-    equalKey->setFixedSize(KEY_WIDTH, 2 * KEY_HEIGHT);
+    equalKey->setFixedSize(KEY_WIDTH, 2 * KEY_HEIGHT + 2);
+
     layout->addWidget(equalKey, 3, 4, 2, 1);
     connect(equalKey, &key::keyClicked, this->screenUI, &screen::onCalculate);
 
@@ -74,15 +89,25 @@ keyboard::keyboard(class screen* screen, QWidget* parent) : QWidget(parent)
     connect(clearKey, &key::keyClicked, [this]()
     {
         screenUI->setText("");
+        screenUI->setFocus();
+        screenUI->setIsErrorOnScreen(false);
     });
 
     auto* delKey = new key("Del", this);
     delKey->setObjectName("del");
     delKey->setFixedSize(KEY_WIDTH, KEY_HEIGHT);
-    layout->addWidget(delKey, 2, 4);
+    layout->addWidget(delKey, 1, 4);
     connect(delKey, &key::keyClicked, [this]()
     {
+        if (screenUI->getIsErrorOnScreen())
+        {
+            screenUI->setText("");
+            screenUI->setFocus();
+            screenUI->setIsErrorOnScreen(false);
+            return;
+        }
         screenUI->setText(screenUI->text().left(screenUI->text().size() - 1));
+        screenUI->setFocus();
     });
 
     QFile styleSheet("./styles/keyboard/keyboard.qss");

@@ -149,6 +149,11 @@ lexer::lexer(const std::string& input) : index(0), isInited(false)
                 tokenStream.push_back(token{tokenType::POWER, "^"});
                 break;
             }
+        case '%':
+            {
+                tokenStream.push_back(token{tokenType::PERCENT, "%"});
+                break;
+            }
         default:
             {
                 logger() << "Unknown token: " << input[i] << '\n';
