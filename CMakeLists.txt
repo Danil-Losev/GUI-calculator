@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.0)
-project(GUI_calculator)
+project(qt_calculator)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -13,7 +13,7 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(GUI_calculator src/main.cpp
+add_executable(qt_calculator src/main.cpp
         src/Lexer/lexer.cpp
         src/Lexer/lexer.h
         src/token/token.h
@@ -33,7 +33,7 @@ add_executable(GUI_calculator src/main.cpp
         src/GUI/screen/screen.cpp
         src/GUI/screen/screen.h)
 
-target_link_libraries(GUI_calculator
+target_link_libraries(qt_calculator
         Qt::Core
         Qt::Gui
         Qt::Widgets
