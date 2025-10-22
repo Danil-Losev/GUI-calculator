@@ -1,5 +1,7 @@
 # Qt-calculator
 
+[![wakatime](https://wakatime.com/badge/user/aa09e045-9241-455f-a7ed-3b0b87d5fc64/project/3600eb42-a237-4108-b804-d01fba2406d7.svg)](https://wakatime.com/badge/user/aa09e045-9241-455f-a7ed-3b0b87d5fc64/project/3600eb42-a237-4108-b804-d01fba2406d7)
+
 <p align="center"><img src="src/styles/images/icon.png" alt="icon.png" /></p>
 A simple calculator application built using the Qt framework. This application provides basic arithmetic operations such
 as addition, subtraction, multiplication, and division.
