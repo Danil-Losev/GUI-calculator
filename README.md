@@ -1,7 +1,9 @@
 # Qt-calculator
 
+<p align="center"><img src="src/styles/images/icon.png" alt="icon.png" /></p>
 A simple calculator application built using the Qt framework. This application provides basic arithmetic operations such
 as addition, subtraction, multiplication, and division.
+<p align="center"><img src="src/styles/images/img.png" alt="img.png" /></p>
 
 ## Features
 
@@ -35,10 +37,6 @@ as addition, subtraction, multiplication, and division.
 ## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Acknowledgments
 
